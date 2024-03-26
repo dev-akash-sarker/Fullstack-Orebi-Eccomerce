@@ -3,6 +3,7 @@ const secureAPI = (req, res, next) => {
   if (req.headers.authorization == authorizationpass) {
     next();
   } else {
+    res.status(401);
     res.send("Invalid API");
   }
 };

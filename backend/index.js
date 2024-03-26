@@ -4,10 +4,13 @@ const _ = require("./Routes");
 const mongooseConfig = require("./config/mongooseConfig");
 const app = express();
 const port = process.env.PORT || 8000;
-
+const cors = require("cors");
+//cors
+app.use(cors());
 // database
 mongooseConfig();
-
+// json
+app.use(express.json());
 // routes
 app.use(_);
 
