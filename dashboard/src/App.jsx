@@ -1,4 +1,5 @@
 import "./App.css";
+import Login from "./page/Login";
 import Otpverification from "./page/Otpverification";
 import Registration from "./page/Registration";
 import {
@@ -14,6 +15,7 @@ function App() {
     createRoutesFromElements(
       <Route>
         <Route path="/" element={<Registration />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/otpverification/:email" element={<Otpverification />} />
       </Route>
     )

@@ -2,20 +2,15 @@ import { Button, Form, Input } from "antd";
 import Alert from "antd/es/alert/Alert";
 import axios from "axios";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-export default function Registration() {
+
+export default function Login() {
   const [loading, setLoading] = useState(false);
 
   const [msg, setMsg] = useState();
-  const navigate = useNavigate();
-
   const onFinish = async (values) => {
-    console.log("Success:", values);
-    setLoading(true);
-    await axios.post(
-      "http://localhost:8000/api/v1/auth/registration",
+    const data = await axios.post(
+      "http://localhost:8000/api/v1/auth/login",
       {
-        name: values.username,
         email: values.email,
         password: values.password,
       },
@@ -27,18 +22,19 @@ export default function Registration() {
     );
 
     setLoading(false);
-    setMsg("Registration successfull , please check you mail");
-    setTimeout(() => {
-      navigate(`/otpverification/${values.email}`);
-    }, 1000);
+    setMsg(data.data);
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
-
   return (
     <>
-      {msg && <Alert message={msg} type="success" showIcon />}
+      {msg?.success && (
+        <Alert message={msg?.success} type="success" closable showIcon />
+      )}
+      {msg?.error && (
+        <Alert message={msg?.error} type="error" closable showIcon />
+      )}
 
       <Form
         name="basic"
@@ -59,20 +55,9 @@ export default function Registration() {
         autoComplete="off"
       >
         <Form.Item
-          label="Username"
-          name="username"
-          rules={[
-            {
-              required: true,
-              message: "Please input your username!",
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
           label="Email"
           name="email"
+          autocomplete="email"
           rules={[
             {
               required: true,
@@ -86,6 +71,7 @@ export default function Registration() {
         <Form.Item
           label="Password"
           name="password"
+          //   autocomplete="current-password"
           rules={[
             {
               required: true,
@@ -108,6 +94,9 @@ export default function Registration() {
             loading={loading}
             disabled={loading}
           >
+            Submit
+          </Button>
+          <Button type="default" loading={loading} disabled={loading}>
             Submit
           </Button>
         </Form.Item>

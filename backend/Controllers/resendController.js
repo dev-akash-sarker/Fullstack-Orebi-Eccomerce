@@ -6,6 +6,7 @@ const resendController = async (req, res) => {
   const findUser = await User.findOne({ email: email });
   console.log(findUser);
   const otp = otpGenerator.generate(6, {
+    lowerCaseAlphabets: false,
     upperCaseAlphabets: false,
     specialChars: false,
   });
