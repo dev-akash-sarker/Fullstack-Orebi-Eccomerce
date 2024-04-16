@@ -1,5 +1,5 @@
 const User = require("../model/usermodel");
-// const jwt = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
 const otpGenerator = require("otp-generator");
@@ -18,7 +18,7 @@ const registrationController = async (req, res) => {
   }
 
   let existingUser = await User.find({ email: email });
-
+  console.log(existingUser);
   if (existingUser.length > 0) {
     return res.send({ error: `${email} already use` });
   } else {
@@ -44,21 +44,21 @@ const registrationController = async (req, res) => {
         },
       });
 
-      // jwt.sign({ email: email }, "ghostmicro", async function (err, token) {
-      //   const info = await transporter.sendMail({
-      //     from: "akashsarker210@gmail.com",
-      //     to: email, // list of receivers
-      //     subject: "Your Verification", // Subject line
-      //     html: `Here is your resend verification <a href="http://localhost:5173/otpverification/${token}">Click here</a>`, // html body
-      //   });
-      // });
-
-      const info = await transporter.sendMail({
-        from: "akashsarker210@gmail.com",
-        to: email, // list of receivers
-        subject: "Your Verification", // Subject line
-        html: `Here is your OTP ${otp}`, // html body
+      jwt.sign({ email: email }, "ghostmicro", async function (err, token) {
+        const info = await transporter.sendMail({
+          from: "akashsarker210@gmail.com",
+          to: email, // list of receivers
+          subject: "Your Verification", // Subject line
+          html: `Here is your resend verification <a href="http://localhost:5173/emailverification/${token}">Click here</a>`, // html body
+        });
       });
+
+      // const info = await transporter.sendMail({
+      //   from: "akashsarker210@gmail.com",
+      //   to: email, // list of receivers
+      //   subject: "Your Verification", // Subject line
+      //   html: `Here is your OTP ${otp}`, // html body
+      // });
 
       res.send({
         name: user.name,

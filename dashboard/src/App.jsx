@@ -1,4 +1,5 @@
 import "./App.css";
+import EmailVerificationLink from "./page/EmailVerification";
 import Login from "./page/Login";
 import Otpverification from "./page/Otpverification";
 import Registration from "./page/Registration";
@@ -16,7 +17,11 @@ function App() {
       <Route>
         <Route path="/" element={<Registration />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/otpverification/:email" element={<Otpverification />} />
+        {/* <Route path="/emailverification/:email" element={<Otpverification />} /> */}
+        <Route
+          path="/emailverification/:token"
+          element={<EmailVerificationLink />}
+        />
       </Route>
     )
   );

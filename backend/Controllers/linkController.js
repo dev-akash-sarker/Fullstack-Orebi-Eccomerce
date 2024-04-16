@@ -1,17 +1,19 @@
 const User = require("../model/usermodel");
+const jwt = require("jsonwebtoken");
+let LinkController = async (req, res) => {
+  const { token } = req.body;
+  const decoded = jwt.verify(token, "ghostmicro");
+  console.log(decoded.email);
 
-let linkController = async (req, res) => {
-  const { email, otp } = req.body;
+  let findUser = await User.findOne({ email: decoded.email });
+  console.log("wow0", findUser);
 
-  let findUser = await User.findOne({ email: email });
-  console.log(findUser);
-  res.send(findUser);
-  if (!findUser.verify && findUser.otp == otp) {
+  if (!findUser.emailVerified) {
     await User.findOneAndUpdate(
       {
-        email: email,
+        email: decoded.email,
       },
-      { otp: "", verify: true }
+      { emailVerified: true }
     );
     res.send("milse");
   } else {
@@ -19,4 +21,4 @@ let linkController = async (req, res) => {
   }
 };
 
-module.exports = linkController;
+module.exports = LinkController;

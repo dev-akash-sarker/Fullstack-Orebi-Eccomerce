@@ -2,7 +2,7 @@ import { Button, Form, Input } from "antd";
 import Alert from "antd/es/alert/Alert";
 import axios from "axios";
 import { useState } from "react";
-
+import Email from "../component/Email";
 export default function Login() {
   const [loading, setLoading] = useState(false);
 
@@ -96,9 +96,7 @@ export default function Login() {
           >
             Submit
           </Button>
-          <Button type="default" loading={loading} disabled={loading}>
-            Submit
-          </Button>
+          <Email />
         </Form.Item>
       </Form>
     </>

@@ -10,27 +10,39 @@ export default function Registration() {
   const navigate = useNavigate();
 
   const onFinish = async (values) => {
-    console.log("Success:", values);
     setLoading(true);
-    await axios.post(
-      "http://localhost:8000/api/v1/auth/registration",
-      {
-        name: values.username,
-        email: values.email,
-        password: values.password,
-      },
-      {
-        headers: {
-          Authorization: "3_t5X`G0x!{2",
+    const data = await axios
+      .post(
+        "http://localhost:8000/api/v1/auth/registration",
+        {
+          name: values.username,
+          email: values.email,
+          password: values.password,
         },
-      }
-    );
+        {
+          headers: {
+            Authorization: "3_t5X`G0x!{2",
+          },
+        }
+      )
+      .then((e) => {
+        if (!e.data.error) {
+          setTimeout(() => {
+            navigate("/login");
+          }, 1000);
+        }
+      });
+
+    console.log("hello", data.data.error);
 
     setLoading(false);
     setMsg("Registration successfull , please check you mail");
-    setTimeout(() => {
-      navigate(`/otpverification/${values.email}`);
-    }, 1000);
+    if (data.data.error.length > 0) {
+      setMsg({
+        error: "error",
+        msg: `Please try different email, email already use`,
+      });
+    }
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
@@ -38,8 +50,14 @@ export default function Registration() {
 
   return (
     <>
-      {msg && <Alert message={msg} type="success" showIcon />}
-
+      {msg && (
+        <Alert
+          message={msg.error == "error" ? msg.msg : msg}
+          type={msg.error == "error" ? msg.error : "success"}
+          closable
+          showIcon
+        />
+      )}
       <Form
         name="basic"
         labelCol={{
@@ -57,6 +75,7 @@ export default function Registration() {
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
         autoComplete="off"
+        className="center"
       >
         <Form.Item
           label="Username"
