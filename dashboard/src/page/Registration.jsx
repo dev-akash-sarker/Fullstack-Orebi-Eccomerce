@@ -2,7 +2,7 @@ import { Button, Form, Input } from "antd";
 import Alert from "antd/es/alert/Alert";
 import axios from "axios";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 export default function Registration() {
   const [loading, setLoading] = useState(false);
 
@@ -129,6 +129,16 @@ export default function Registration() {
           >
             Submit
           </Button>
+        </Form.Item>
+        <Form.Item
+          wrapperCol={{
+            offset: 8,
+            span: 16,
+          }}
+        >
+          <p>
+            if you have a account, here <Link to={"/login"}>Log in</Link>
+          </p>
         </Form.Item>
       </Form>
     </>

@@ -3,6 +3,7 @@ import Alert from "antd/es/alert/Alert";
 import axios from "axios";
 import { useState } from "react";
 import Email from "../component/Email";
+import { Link } from "react-router-dom";
 export default function Login() {
   const [loading, setLoading] = useState(false);
 
@@ -97,6 +98,17 @@ export default function Login() {
             Submit
           </Button>
           <Email />
+        </Form.Item>
+        <Form.Item
+          wrapperCol={{
+            offset: 8,
+            span: 16,
+          }}
+        >
+          <p>
+            if you does not have a account, here
+            <Link to={"/"}> Sign Up</Link>
+          </p>
         </Form.Item>
       </Form>
     </>
