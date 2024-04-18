@@ -1,7 +1,9 @@
 import "./App.css";
 import EmailVerificationLink from "./page/EmailVerification";
+import ForgetPassword from "./page/ForgetPassword";
 import Login from "./page/Login";
-import Otpverification from "./page/Otpverification";
+import Newpassword from "./page/Newpassword";
+
 import Registration from "./page/Registration";
 import {
   createRoutesFromElements,
@@ -17,7 +19,8 @@ function App() {
       <Route>
         <Route path="/" element={<Registration />} />
         <Route path="/login" element={<Login />} />
-        {/* <Route path="/emailverification/:email" element={<Otpverification />} /> */}
+        <Route path="/forgetpassword" element={<ForgetPassword />} />
+        <Route path="/newpassword/:token" element={<Newpassword />} />
         <Route
           path="/emailverification/:token"
           element={<EmailVerificationLink />}

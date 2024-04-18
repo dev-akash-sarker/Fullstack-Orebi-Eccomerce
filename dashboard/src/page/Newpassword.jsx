@@ -1,42 +1,33 @@
 import { Button, Form, Input } from "antd";
-import Alert from "antd/es/alert/Alert";
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
-import { Link } from "react-router-dom";
-export default function Login() {
+export default function Newpassword() {
   const [loading, setLoading] = useState(false);
-
-  const [msg, setMsg] = useState();
+  const param = useParams();
+  const navigate = useNavigate();
   const onFinish = async (values) => {
+    console.log("Success:", values);
+    setLoading(true);
     const data = await axios.post(
-      "http://localhost:8000/api/v1/auth/login",
+      "http://localhost:8000/api/v1/auth/newpassword",
       {
-        email: values.email,
         password: values.password,
-      },
-      {
-        headers: {
-          Authorization: "3_t5X`G0x!{2",
-        },
+        confirmPassword: values.confirmPassword,
+        token: param.token,
       }
     );
-
     setLoading(false);
-    setMsg(data.data);
+    if (data.statusText == "OK") {
+      navigate("/login");
+    }
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
   return (
     <>
-      {msg?.success && (
-        <Alert message={msg?.success} type="success" closable showIcon />
-      )}
-      {msg?.error && (
-        <Alert message={msg?.error} type="error" closable showIcon />
-      )}
-
       <Form
         name="basic"
         labelCol={{
@@ -57,27 +48,24 @@ export default function Login() {
         className="center"
       >
         <Form.Item
-          label="Email"
-          name="email"
-          autocomplete="email"
+          label="Password"
+          name="password"
           rules={[
             {
               required: true,
-              message: "Please input your email!",
+              message: "Please enter new password!",
             },
           ]}
         >
-          <Input />
+          <Input.Password />
         </Form.Item>
-
         <Form.Item
-          label="Password"
-          name="password"
-          //   autocomplete="current-password"
+          label="Confirm password"
+          name="confirmPassword"
           rules={[
             {
               required: true,
-              message: "Please input your password!",
+              message: "Please enter your confirm password!",
             },
           ]}
         >
@@ -91,28 +79,13 @@ export default function Login() {
           }}
         >
           <Button
-            type="primary"
-            htmlType="submit"
             loading={loading}
             disabled={loading}
+            type="primary"
+            htmlType="submit"
           >
             Submit
           </Button>
-          <Button type="default" style={{ marginLeft: "10px" }}>
-            <Link to="/forgetpassword">Forget Password</Link>
-          </Button>
-        </Form.Item>
-
-        <Form.Item
-          wrapperCol={{
-            offset: 8,
-            span: 16,
-          }}
-        >
-          <p>
-            if you does not have a account, here
-            <Link to={"/"}> Sign Up</Link>
-          </p>
         </Form.Item>
       </Form>
     </>
