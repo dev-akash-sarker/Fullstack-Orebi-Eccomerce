@@ -2,9 +2,12 @@ import { Button, Form, Input } from "antd";
 import Alert from "antd/es/alert/Alert";
 import axios from "axios";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 
 import { Link } from "react-router-dom";
+import { Loginusers } from "../Features/slice/loginSlice";
 export default function Login() {
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
 
   const [msg, setMsg] = useState();
@@ -24,6 +27,9 @@ export default function Login() {
 
     setLoading(false);
     setMsg(data.data);
+
+    dispatch(Loginusers(data.config.data));
+    localStorage.setItem("users", JSON.stringify(data.config.data));
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
