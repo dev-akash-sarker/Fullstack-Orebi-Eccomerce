@@ -3,13 +3,13 @@ import axios from "axios";
 
 import { useEffect, useState } from "react";
 
-export default function ViewCategory() {
+export default function ViewSubCategory() {
   const [categorylist, setCategorylist] = useState([]);
 
   useEffect(() => {
     async function categoryNames() {
       const data = await axios.get(
-        "http://localhost:8000/api/v1/product/viewcategory"
+        "http://localhost:8000/api/v1/product/viewsubcategory"
       );
 
       let categoryData = [];
@@ -18,6 +18,7 @@ export default function ViewCategory() {
           key: item._id,
           name: item.name,
           status: item.status,
+          categoryName: item.categoryId.name,
         });
       });
 
@@ -37,6 +38,11 @@ export default function ViewCategory() {
       title: "Status",
       dataIndex: "status",
       key: "status",
+    },
+    {
+      title: "Category Name",
+      dataIndex: "categoryName",
+      key: "categoryName",
     },
   ];
   return (

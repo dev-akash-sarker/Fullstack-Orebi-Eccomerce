@@ -1,16 +1,19 @@
-import { Alert, Button, Form, Input } from "antd";
+import { Alert, Button, Form, Input, Select, Space } from "antd";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-export default function AddCategory() {
+export default function AddSubCategory() {
   const [msg, setMsg] = useState();
+  const [categorylist, setCategorylist] = useState([]);
+  const [categoryid, setCategoryid] = useState("");
   const onFinish = async (values) => {
     console.log("Success:", values);
     const createCategory = await axios.post(
-      "http://localhost:8000/api/v1/product/createcategory",
+      "http://localhost:8000/api/v1/product/createsubcategory",
       {
-        name: values.categoryName,
+        name: values.subcategoryName,
+        categoryId: categoryid,
       }
     );
 
@@ -21,6 +24,30 @@ export default function AddCategory() {
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
+
+  const handleChange = (value) => {
+    setCategoryid(value);
+  };
+
+  useEffect(() => {
+    async function viewcategory() {
+      const data = await axios.get(
+        "http://localhost:8000/api/v1/product/viewcategory"
+      );
+
+      let categoryData = [];
+      data.data.map((item) => {
+        categoryData.push({
+          value: item._id,
+          label: item.name,
+        });
+      });
+
+      setCategorylist(categoryData);
+    }
+
+    viewcategory();
+  }, []);
   return (
     <>
       {msg?.success && (
@@ -61,12 +88,31 @@ export default function AddCategory() {
         autoComplete="off"
       >
         <Form.Item
-          label="Category Name"
-          name="categoryName"
+          wrapperCol={{
+            offset: 2,
+            span: 16,
+          }}
+        >
+          <Space wrap>
+            <Select
+              defaultValue="Category Name"
+              style={{
+                width: 150,
+              }}
+              onChange={handleChange}
+              options={categorylist}
+            />
+          </Space>
+        </Form.Item>
+        <Form.Item
+          label="SubCategory Name"
+          name="subcategoryName"
+          validateStatus="validating"
           rules={[
             {
               required: true,
-              message: "Please enter your category name!",
+              hideRequiredMark: true,
+              message: "Please enter your subcategory name!",
             },
           ]}
         >
@@ -83,7 +129,7 @@ export default function AddCategory() {
             Submit
           </Button>
           <Button type="default" style={{ marginLeft: "10px" }}>
-            <Link to="/dashboard/viewcategory">View Categories</Link>
+            <Link to="/dashboard/viewsubcategory">View SubCategories</Link>
           </Button>
         </Form.Item>
       </Form>

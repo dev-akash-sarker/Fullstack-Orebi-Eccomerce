@@ -18,6 +18,8 @@ import AddUser from "./page/User/AddUser";
 import ViewUser from "./page/User/ViewUser";
 import AddProduct from "./page/Product/AddProduct";
 import ViewProduct from "./page/Product/ViewProduct";
+import AddSubCategory from "./page/Category/AddSubCategory";
+import ViewSubCategory from "./page/Category/ViewSubCategory";
 // import ResendVerification from "./page/ResendVerification";
 
 function App() {
@@ -39,6 +41,8 @@ function App() {
           <Route path="viewcategory" element={<ViewCategory />} />
           <Route path="addproduct" element={<AddProduct />} />
           <Route path="viewproduct" element={<ViewProduct />} />
+          <Route path="addsubcategory" element={<AddSubCategory />} />
+          <Route path="viewsubcategory" element={<ViewSubCategory />} />
         </Route>
       </Route>
     )

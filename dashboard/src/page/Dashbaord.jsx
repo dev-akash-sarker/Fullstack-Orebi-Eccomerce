@@ -34,8 +34,16 @@ const items = [
   getItem("Category", "sub4", <SettingOutlined />, [
     getItem("Add Category", "/dashboard/addcategory", <AppstoreAddOutlined />),
     getItem("View Category", "/dashboard/viewcategory", <FundViewOutlined />),
-    getItem("Add SubCategory", "7", <AppstoreAddOutlined />),
-    getItem("View SubCategory", "8", <FundViewOutlined />),
+    getItem(
+      "Add SubCategory",
+      "/dashboard/addsubcategory",
+      <AppstoreAddOutlined />
+    ),
+    getItem(
+      "View SubCategory",
+      "/dashboard/viewsubcategory",
+      <FundViewOutlined />
+    ),
   ]),
 ];
 export default function Dashbaord() {
@@ -47,7 +55,7 @@ export default function Dashbaord() {
   return (
     <>
       <div>
-        <Row gutter={200}>
+        <Row gutter={0}>
           <Col span={4}>
             <Menu
               onClick={onClick}
