@@ -20,6 +20,7 @@ import AddProduct from "./page/Product/AddProduct";
 import ViewProduct from "./page/Product/ViewProduct";
 import AddSubCategory from "./page/Category/AddSubCategory";
 import ViewSubCategory from "./page/Category/ViewSubCategory";
+
 // import ResendVerification from "./page/ResendVerification";
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
       <Route>
         <Route path="/" element={<Registration />} />
         <Route path="/login" element={<Login />} />
+
         <Route path="/forgetpassword" element={<ForgetPassword />} />
         <Route path="/newpassword/:token" element={<Newpassword />} />
         <Route

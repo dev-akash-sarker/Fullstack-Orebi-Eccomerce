@@ -28,7 +28,7 @@ const ForgetPassController = async (req, res) => {
         });
       },
       "secret",
-      { expiresIn: 60 * 3 }
+      { expiresIn: "60s" }
     );
   } else {
     res.send({ error: "user not found" });

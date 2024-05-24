@@ -2,8 +2,10 @@ import { Table } from "antd";
 import axios from "axios";
 
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 export default function ViewCategory() {
+  const userInfo = useSelector((state) => state.user.value);
   const [categorylist, setCategorylist] = useState([]);
 
   useEffect(() => {
@@ -13,6 +15,7 @@ export default function ViewCategory() {
       );
 
       let categoryData = [];
+
       data.data.map((item) => {
         categoryData.push({
           key: item._id,
@@ -39,9 +42,12 @@ export default function ViewCategory() {
       key: "status",
     },
   ];
+
   return (
     <>
-      <Table dataSource={categorylist} columns={columns} />;
+      {userInfo.role !== "User" && (
+        <Table dataSource={categorylist} columns={columns} />
+      )}
     </>
   );
 }

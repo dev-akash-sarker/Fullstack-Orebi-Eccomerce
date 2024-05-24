@@ -2,8 +2,10 @@ import { Alert, Button, Form, Input, Select, Space } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export default function AddSubCategory() {
+  const userInfo = useSelector((state) => state.user.value);
   const [msg, setMsg] = useState();
   const [categorylist, setCategorylist] = useState([]);
   const [categoryid, setCategoryid] = useState("");
@@ -68,71 +70,72 @@ export default function AddSubCategory() {
           showIcon
         />
       )}
-
-      <Form
-        name="basic"
-        labelCol={{
-          span: 8,
-        }}
-        wrapperCol={{
-          span: 16,
-        }}
-        style={{
-          maxWidth: 600,
-        }}
-        initialValues={{
-          remember: true,
-        }}
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
-        autoComplete="off"
-      >
-        <Form.Item
+      {userInfo.role !== "User" && (
+        <Form
+          name="basic"
+          labelCol={{
+            span: 8,
+          }}
           wrapperCol={{
-            offset: 2,
             span: 16,
           }}
-        >
-          <Space wrap>
-            <Select
-              defaultValue="Category Name"
-              style={{
-                width: 150,
-              }}
-              onChange={handleChange}
-              options={categorylist}
-            />
-          </Space>
-        </Form.Item>
-        <Form.Item
-          label="SubCategory Name"
-          name="subcategoryName"
-          validateStatus="validating"
-          rules={[
-            {
-              required: true,
-              hideRequiredMark: true,
-              message: "Please enter your subcategory name!",
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-
-        <Form.Item
-          wrapperCol={{
-            offset: 8,
-            span: 16,
+          style={{
+            maxWidth: 600,
           }}
+          initialValues={{
+            remember: true,
+          }}
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
+          autoComplete="off"
         >
-          <Button type="primary" htmlType="submit">
-            Submit
-          </Button>
-          <Button type="default" style={{ marginLeft: "10px" }}>
-            <Link to="/dashboard/viewsubcategory">View SubCategories</Link>
-          </Button>
-        </Form.Item>
-      </Form>
+          <Form.Item
+            wrapperCol={{
+              offset: 2,
+              span: 16,
+            }}
+          >
+            <Space wrap>
+              <Select
+                defaultValue="Category Name"
+                style={{
+                  width: 150,
+                }}
+                onChange={handleChange}
+                options={categorylist}
+              />
+            </Space>
+          </Form.Item>
+          <Form.Item
+            label="SubCategory Name"
+            name="subcategoryName"
+            validateStatus="validating"
+            rules={[
+              {
+                required: true,
+                hideRequiredMark: true,
+                message: "Please enter your subcategory name!",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            wrapperCol={{
+              offset: 8,
+              span: 16,
+            }}
+          >
+            <Button type="primary" htmlType="submit">
+              Submit
+            </Button>
+            <Button type="default" style={{ marginLeft: "10px" }}>
+              <Link to="/dashboard/viewsubcategory">View SubCategories</Link>
+            </Button>
+          </Form.Item>
+        </Form>
+      )}
     </>
   );
 }

@@ -5,6 +5,9 @@ const mongooseConfig = require("./config/mongooseConfig");
 const app = express();
 const port = process.env.PORT || 8000;
 const cors = require("cors");
+
+const path = require("path");
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 //cors
 app.use(cors());
 // database

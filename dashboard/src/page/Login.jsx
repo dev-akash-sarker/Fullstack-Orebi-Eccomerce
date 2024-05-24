@@ -2,12 +2,14 @@ import { Button, Form, Input } from "antd";
 import Alert from "antd/es/alert/Alert";
 import axios from "axios";
 import { useState } from "react";
-
-import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { activeUser } from "../features/user/userSlice";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [loading, setLoading] = useState(false);
-
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [msg, setMsg] = useState();
   const onFinish = async (values) => {
     const data = await axios.post(
@@ -22,9 +24,20 @@ export default function Login() {
         },
       }
     );
+    console.log("my data", data);
 
     setLoading(false);
     setMsg(data.data);
+    if (data.data.success) {
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 500);
+    }
+
+    dispatch(activeUser(data.data));
+    localStorage.setItem("user", JSON.stringify(data.data));
+
+    console.log(data.data);
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);

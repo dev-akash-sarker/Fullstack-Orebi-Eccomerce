@@ -11,6 +11,7 @@ export default function Registration() {
 
   const onFinish = async (values) => {
     setLoading(true);
+    // eslint-disable-next-line no-unused-vars
     const data = await axios
       .post(
         "http://localhost:8000/api/v1/auth/registration",
@@ -26,22 +27,26 @@ export default function Registration() {
         }
       )
       .then((e) => {
+        console.log("dekhi", e);
         if (!e.data.error) {
           setTimeout(() => {
             navigate("/login");
           }, 1000);
+          setMsg("Registration successfull , please check you mail");
+        } else {
+          setMsg({
+            error: "error",
+            msg: `Please try different email, email already use`,
+          });
         }
       });
 
-    console.log("hello", data.data.error);
+    console.log("hello", msg);
 
-    setLoading(false);
-    setMsg("Registration successfull , please check you mail");
-    if (data.data.error.length > 0) {
-      setMsg({
-        error: "error",
-        msg: `Please try different email, email already use`,
-      });
+    if (!msg.error) {
+      setLoading(false);
+    } else {
+      setLoading(true);
     }
   };
   const onFinishFailed = (errorInfo) => {

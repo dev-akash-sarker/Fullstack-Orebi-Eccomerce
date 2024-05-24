@@ -18,7 +18,7 @@ const registrationController = async (req, res) => {
   }
 
   let existingUser = await User.find({ email: email });
-  console.log(existingUser);
+
   if (existingUser.length > 0) {
     return res.send({ error: `${email} already use` });
   } else {

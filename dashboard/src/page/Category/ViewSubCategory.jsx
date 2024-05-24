@@ -2,8 +2,10 @@ import { Table } from "antd";
 import axios from "axios";
 
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 export default function ViewSubCategory() {
+  const userInfo = useSelector((state) => state.user.value);
   const [categorylist, setCategorylist] = useState([]);
 
   useEffect(() => {
@@ -45,9 +47,12 @@ export default function ViewSubCategory() {
       key: "categoryName",
     },
   ];
+
   return (
     <>
-      <Table dataSource={categorylist} columns={columns} />;
+      {userInfo.role !== "User" && (
+        <Table dataSource={categorylist} columns={columns} />
+      )}
     </>
   );
 }
